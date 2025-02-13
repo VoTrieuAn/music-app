@@ -1,14 +1,14 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Trang chủ",
+  title: "Danh mục bài hát",
   description: "Trang phát nhạc trực tuyến hàng triệu người Việt Nam tin dùng",
 };
 
-export default function Home() {
+export default function CategoryDetailPage() {
   return (
     <>
-      <h1 className="text-[38px] font-[700] h-[3000px] bg-white">Trang chủ</h1>
+      <h1 className="text-[38px] font-[700]">Trang danh mục bài hát</h1>
     </>
   );
 }
