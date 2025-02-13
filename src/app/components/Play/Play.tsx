@@ -15,7 +15,7 @@ export const Play = () => {
               />
             </div>
             <div>
-              <h3 className="text-[15px] font-[700] text-white">Cô Hồng</h3>
+              <h3 className="text-[15px] font-[700] text-white">Cô Phòng</h3>
               <p className="text-[12px] font-[700] text-[#FFFFFF70]">
                 Hồ Quang Hiếu, Huỳnh Văn
               </p>
