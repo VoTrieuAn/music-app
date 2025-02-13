@@ -9,7 +9,7 @@ export const SiderLogo = () => {
             <div className="w-[42px] h-[42px]">
               <img src="/logo.png" alt="logo" className="h-[42px] w-full" />
             </div>
-            <div className="text-[24px] font-[700] text-[#00ADEF]">
+            <div className="text-[24px] font-[700] text-primary">
               AnTien Music
             </div>
           </div>

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 export default function CategoriesPage() {
   return (
     <>
-      <h1 className="text-[38px] font-[700]">Trang chi tiết danh mục bài hát</h1>
+      <h1 className="text-[38px] font-[700]">Trang danh mục bài hát</h1>
     </>
   );
 }

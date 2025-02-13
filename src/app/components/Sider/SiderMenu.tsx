@@ -1,55 +1,91 @@
 import Link from "next/link";
-
-export const SiderMenu = (props: any) => {
+import { FaHouse, FaRightFromBracket, FaUserPlus } from "react-icons/fa6";
+import { FaMusic, FaHeart, FaPodcast, FaUser } from "react-icons/fa";
+import { usePathname } from "next/navigation";
+export const SiderMenu = () => {
   const menu = [
     {
-      icon: <>Icon</>,
+      icon: (
+        <>
+          <FaHouse />
+        </>
+      ),
       title: "Trang chủ",
       link: "/",
     },
     {
-      icon: <>Icon</>,
+      icon: (
+        <>
+          <FaMusic />
+        </>
+      ),
       title: "Danh mục bài hát",
       link: "/categories",
     },
     {
-      icon: <>Icon</>,
+      icon: (
+        <>
+          <FaPodcast />
+        </>
+      ),
       title: "Ca sĩ",
       link: "/singers",
     },
     {
-      icon: <>Icon</>,
+      icon: (
+        <>
+          <FaHeart />
+        </>
+      ),
       title: "Bài hát yêu thích",
       link: "/wishlist",
     },
     {
-      icon: <>Icon</>,
+      icon: (
+        <>
+          <FaRightFromBracket />
+        </>
+      ),
       title: "Đăng xuất",
-      link: "/login",
+      link: "",
     },
     {
-      icon: <>Icon</>,
+      icon: (
+        <>
+          <FaUser />
+        </>
+      ),
       title: "Đăng nhập",
       link: "/login",
     },
     {
-      icon: <>Icon</>,
+      icon: (
+        <>
+          <FaUserPlus />
+        </>
+      ),
       title: "Đăng ký",
       link: "/register",
     },
   ];
+
+  const pathname = usePathname();
+
   return (
     <>
       <nav className="py-[30px] px-[20px]">
         <ul>
           {menu.map((item: any, index: any) => (
-            <li key={index}>
+            <li key={index} className=" mb-[30px]">
               <Link
                 href={item.link}
-                className="text-white text-[16px] font-[700] flex gap-x-[20px]"
+                className={
+                  "flex gap-x-[20px] items-center hover:text-primary " +
+                  (pathname === item.link ? "text-primary" : "text-white")
+                }
               >
-                <span>{item.icon}</span>
-                <span>{item.title}</span>
+                <span className="text-[22px]">{item.icon}</span>
+                <span className="text-[16px] font-[700] ">{item.title}</span>
               </Link>
             </li>
           ))}
