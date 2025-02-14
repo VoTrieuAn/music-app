@@ -1,5 +1,7 @@
 import { CardItem } from "@/app/components/Card/CardItem";
 import { Title } from "@/app/components/Title/Title";
+import { dbFirebase } from "@/app/firebase.config";
+import { DataSnapshot, onValue, ref } from "firebase/database";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -8,20 +10,7 @@ export const metadata: Metadata = {
 };
 
 export default function CategoriesPage() {
-  const data = [
-    {
-      image: "/demo/singer-image-2.png",
-      title: "Nhạc trẻ",
-      desc: "Top 100 Nhạc Trẻ là danh sách 100 ca khúc hot nhất hiện tại của thể loại Nhạc Trẻ",
-      link: "",
-    },
-    {
-      image: "/demo/singer-image-2.png",
-      title: "Nhạc trẻ",
-      desc: "Top 100 Nhạc Trẻ là danh sách 100 ca khúc hot nhất hiện tại của thể loại Nhạc Trẻ",
-      link: "",
-    },
-  ];
+  const data = getData();
 
   return (
     <>
@@ -40,3 +29,22 @@ export default function CategoriesPage() {
     </>
   );
 }
+
+const getData = () => {
+  const dataSection: any[] = [];
+  const categoriesRef = ref(dbFirebase, "categories");
+  onValue(categoriesRef, (items) => {
+    items.forEach((item) => {
+      const key = item.key;
+      const data = item.val();
+      dataSection.push({
+        id: key,
+        image: data.image,
+        title: data.title,
+        description: data.description,
+        link: `/categories/${key}`,
+      });
+    });
+  });
+  return dataSection;
+};
