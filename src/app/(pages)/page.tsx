@@ -1,8 +1,9 @@
 import { Metadata } from "next";
-
 import { Title } from "../components/Title/Title";
 import { SongItem } from "../components/Song/SongItem";
 import { CardItem } from "../components/Card/CardItem";
+import { dbFirebase } from "../firebase.config";
+import { onValue, ref } from "firebase/database";
 
 export const metadata: Metadata = {
   title: "Trang chủ",
@@ -10,55 +11,12 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const dataSectionOne = [
-    {
-      image: "/demo/singer-image-1.png",
-      title: "Cô Phòng",
-      singer: "Hồ Quang Hiếu, Huỳnh Văn",
-      listen: 20000,
-    },
-    {
-      image: "/demo/singer-image-1.png",
-      title: "Cô Phòng",
-      singer: "Hồ Quang Hiếu, Huỳnh Văn",
-      listen: 20000,
-    },
-    {
-      image: "/demo/singer-image-1.png",
-      title: "Cô Phòng",
-      singer: "Hồ Quang Hiếu, Huỳnh Văn",
-      listen: 20000,
-    },
-  ];
+  const dataSectionOne = getSectionOne();
 
-  const dataSectionTwo = [
-    {
-      image: "/demo/singer-image-2.png",
-      title: "Nhạc trẻ",
-      desc: "Top 100 Nhạc Trẻ là danh sách 100 ca khúc hot nhất hiện tại của thể loại Nhạc Trẻ",
-      link: "",
-    },
-    {
-      image: "/demo/singer-image-2.png",
-      title: "Nhạc trẻ",
-      desc: "Top 100 Nhạc Trẻ là danh sách 100 ca khúc hot nhất hiện tại của thể loại Nhạc Trẻ",
-      link: "",
-    },
-  ];
-  const dataSectionThree = [
-    {
-      image: "/demo/singer-image-2.png",
-      title: "Hồ Quang Hiếu",
-      desc: "Top 100 Nhạc Trẻ là danh sách 100 ca khúc hot nhất hiện tại của thể loại Nhạc Trẻ",
-      link: "",
-    },
-    {
-      image: "/demo/singer-image-2.png",
-      title: "Hồ Quang Hiếu",
-      desc: "Top 100 Nhạc Trẻ là danh sách 100 ca khúc hot nhất hiện tại của thể loại Nhạc Trẻ",
-      link: "",
-    },
-  ];
+  const dataSectionTwo: any[] = getSectionTwo();
+
+  const dataSectionThree: any[] = getSectionThree();
+
   return (
     <>
       {/* Section one: Banner home + Nghe nhiều */}
@@ -127,3 +85,74 @@ export default function Home() {
     </>
   );
 }
+
+const getSectionOne = () => {
+  const dataSectionOne: any[] = [];
+
+  const songRef = ref(dbFirebase, "songs");
+  onValue(songRef, (items) => {
+    // Snapshot là 1 đối tượng có key và value
+    items.forEach((item) => {
+      const key = item.key;
+      const data = item.val();
+
+      if (dataSectionOne.length < 3) {
+        onValue(ref(dbFirebase, "/singers/" + data.singerId[0]), (item) => {
+          const dataSinger = item.val();
+
+          dataSectionOne.push({
+            id: key,
+            image: data.image,
+            title: data.title,
+            singer: dataSinger.title,
+            listen: data.listen,
+            link: `/songs/${key}`,
+          });
+        });
+      }
+    });
+  });
+  return dataSectionOne;
+};
+
+const getSectionTwo = () => {
+  const dataSectionTwo: any[] = [];
+  const categoriesRef = ref(dbFirebase, "categories");
+  onValue(categoriesRef, (items) => {
+    items.forEach((item) => {
+      const key = item.key;
+      const data = item.val();
+      if (dataSectionTwo.length < 5) {
+        dataSectionTwo.push({
+          id: key,
+          image: data.image,
+          title: data.title,
+          description: data.description,
+          link: `/categories/${key}`,
+        });
+      }
+    });
+  });
+  return dataSectionTwo;
+};
+
+const getSectionThree = () => {
+  const dataSectionThree: any[] = [];
+  const singersRef = ref(dbFirebase, "singers");
+  onValue(singersRef, (items) => {
+    items.forEach((item) => {
+      const key = item.key;
+      const data = item.val();
+      if (dataSectionThree.length < 5) {
+        dataSectionThree.push({
+          id: key,
+          image: data.image,
+          title: data.title,
+          description: data.description,
+          link: `/singers/${key}`,
+        });
+      }
+    });
+  });
+  return dataSectionThree;
+};

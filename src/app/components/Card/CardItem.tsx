@@ -6,7 +6,7 @@ export const CardItem = (props: any) => {
   return (
     <>
       <div className="">
-        <Link href="">
+        <Link href={item.link}>
           <div className="w-[180px] aspect-square rounded-[15px] truncate mb-[10px]">
             <img
               src={item.image}
@@ -18,7 +18,7 @@ export const CardItem = (props: any) => {
             {item.title}
           </div>
           <div className="font-[400] text-[12px] text-[#FFFFFF80] line-clamp-1">
-            {item.desc}
+            {item.description}
           </div>
         </Link>
       </div>

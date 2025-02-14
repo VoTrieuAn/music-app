@@ -8,7 +8,7 @@ export const SongItem = (props: any) => {
     <div className="flex items-center justify-between p-[10px] bg-[#212121] rounded-[15px]">
       <div className="flex items-center gap-x-[10px]">
         <Link
-          href=""
+          href={item.link}
           className="w-[76px] aspect-square rounded-[10px] truncate"
         >
           <img
@@ -19,7 +19,10 @@ export const SongItem = (props: any) => {
         </Link>
         <div className="">
           <div className="mb-[5px]">
-            <Link href="" className="font-[600] text-[16px] text-white">
+            <Link
+              href={item.link}
+              className="font-[600] text-[16px] text-white"
+            >
               {item.title}
             </Link>
           </div>
