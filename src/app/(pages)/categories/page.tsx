@@ -1,7 +1,5 @@
-import { CardItem } from "@/app/components/Card/CardItem";
+import { CategoriesListItem } from "@/app/components/MusicApp/Categories/CategoriesListItem";
 import { Title } from "@/app/components/Title/Title";
-import { dbFirebase } from "@/app/firebase.config";
-import { DataSnapshot, onValue, ref } from "firebase/database";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,8 +8,6 @@ export const metadata: Metadata = {
 };
 
 export default function CategoriesPage() {
-  const data = getData();
-
   return (
     <>
       {/* Section two: Danh mục nổi bật */}
@@ -19,9 +15,7 @@ export default function CategoriesPage() {
         <Title text="Danh mục nổi bật" />
         <div className="grid grid-cols-5 gap-[20px]">
           {/* Card Item */}
-          {data.map((item, index) => (
-            <CardItem key={index} item={item} />
-          ))}
+          <CategoriesListItem />
           {/* End Card Item */}
         </div>
       </div>
@@ -29,22 +23,3 @@ export default function CategoriesPage() {
     </>
   );
 }
-
-const getData = () => {
-  const dataSection: any[] = [];
-  const categoriesRef = ref(dbFirebase, "categories");
-  onValue(categoriesRef, (items) => {
-    items.forEach((item) => {
-      const key = item.key;
-      const data = item.val();
-      dataSection.push({
-        id: key,
-        image: data.image,
-        title: data.title,
-        description: data.description,
-        link: `/categories/${key}`,
-      });
-    });
-  });
-  return dataSection;
-};

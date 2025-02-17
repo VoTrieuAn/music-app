@@ -1,9 +1,8 @@
 import { Metadata } from "next";
 import { Title } from "../components/Title/Title";
-import { SongItem } from "../components/Song/SongItem";
-import { CardItem } from "../components/Card/CardItem";
-import { dbFirebase } from "../firebase.config";
-import { onValue, ref } from "firebase/database";
+import { HomeMusicItem } from "../components/MusicApp/Home/HomeMusicItem";
+import { HomeCategoriesItem } from "../components/MusicApp/Home/HomeCategoriesItem";
+import { HomeSingerItem } from "../components/MusicApp/Home/HomeSingerItem";
 
 export const metadata: Metadata = {
   title: "Trang chủ",
@@ -11,12 +10,6 @@ export const metadata: Metadata = {
 };
 
 export default function Home() {
-  const dataSectionOne = getSectionOne();
-
-  const dataSectionTwo: any[] = getSectionTwo();
-
-  const dataSectionThree: any[] = getSectionThree();
-
   return (
     <>
       {/* Section one: Banner home + Nghe nhiều */}
@@ -49,9 +42,7 @@ export default function Home() {
           {/* List item */}
           <div className="flex flex-col gap-y-[12px]">
             {/* Item */}
-            {dataSectionOne.map((item, index) => (
-              <SongItem key={index} item={item} />
-            ))}
+            <HomeMusicItem />
             {/* End Item */}
           </div>
           {/* End List item */}
@@ -63,9 +54,7 @@ export default function Home() {
         <Title text="Danh mục nổi bật" />
         <div className="grid grid-cols-5 gap-[20px]">
           {/* Card Item */}
-          {dataSectionTwo.map((item, index) => (
-            <CardItem key={index} item={item} />
-          ))}
+          <HomeCategoriesItem />
           {/* End Card Item */}
         </div>
       </div>
@@ -75,9 +64,7 @@ export default function Home() {
         <Title text="Ca sĩ nổi bật" />
         <div className="grid grid-cols-5 gap-[20px]">
           {/* Card Item */}
-          {dataSectionThree.map((item, index) => (
-            <CardItem key={index} item={item} />
-          ))}
+          <HomeSingerItem />
           {/* End Card Item */}
         </div>
       </div>
@@ -85,74 +72,3 @@ export default function Home() {
     </>
   );
 }
-
-const getSectionOne = () => {
-  const dataSectionOne: any[] = [];
-
-  const songRef = ref(dbFirebase, "songs");
-  onValue(songRef, (items) => {
-    // Snapshot là 1 đối tượng có key và value
-    items.forEach((item) => {
-      const key = item.key;
-      const data = item.val();
-
-      if (dataSectionOne.length < 3) {
-        onValue(ref(dbFirebase, "/singers/" + data.singerId[0]), (item) => {
-          const dataSinger = item.val();
-
-          dataSectionOne.push({
-            id: key,
-            image: data.image,
-            title: data.title,
-            singer: dataSinger.title,
-            listen: data.listen,
-            link: `/songs/${key}`,
-          });
-        });
-      }
-    });
-  });
-  return dataSectionOne;
-};
-
-const getSectionTwo = () => {
-  const dataSectionTwo: any[] = [];
-  const categoriesRef = ref(dbFirebase, "categories");
-  onValue(categoriesRef, (items) => {
-    items.forEach((item) => {
-      const key = item.key;
-      const data = item.val();
-      if (dataSectionTwo.length < 5) {
-        dataSectionTwo.push({
-          id: key,
-          image: data.image,
-          title: data.title,
-          description: data.description,
-          link: `/categories/${key}`,
-        });
-      }
-    });
-  });
-  return dataSectionTwo;
-};
-
-const getSectionThree = () => {
-  const dataSectionThree: any[] = [];
-  const singersRef = ref(dbFirebase, "singers");
-  onValue(singersRef, (items) => {
-    items.forEach((item) => {
-      const key = item.key;
-      const data = item.val();
-      if (dataSectionThree.length < 5) {
-        dataSectionThree.push({
-          id: key,
-          image: data.image,
-          title: data.title,
-          description: data.description,
-          link: `/singers/${key}`,
-        });
-      }
-    });
-  });
-  return dataSectionThree;
-};
