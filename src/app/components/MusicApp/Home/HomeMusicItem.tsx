@@ -7,34 +7,6 @@ import { dbFirebase } from "@/app/firebase.config";
 
 export const HomeMusicItem = () => {
   const [dataSectionOne, setDataSectionOne] = useState<any[]>([]);
-  // useEffect(() => {
-  //   // Section one
-  //   const songRef = ref(dbFirebase, "songs");
-  //   onValue(songRef, (items) => {
-  //     const newDataSectionOne: any[] = [];
-  //     // Snapshot là 1 đối tượng có key và value
-  //     items.forEach((item) => {
-  //       const key = item.key;
-  //       const data = item.val();
-
-  //       onValue(ref(dbFirebase, "/singers/" + data.singerId[0]), (item) => {
-  //         const dataSinger = item.val();
-  //         if (newDataSectionOne.length < 3) {
-  //           newDataSectionOne.push({
-  //             id: key,
-  //             image: data.image,
-  //             title: data.title,
-  //             singer: dataSinger.title,
-  //             listen: data.listen,
-  //             link: `/songs/${key}`,
-  //           });
-  //         }
-  //       });
-  //     });
-
-  //     setDataSectionOne(newDataSectionOne);
-  //   });
-  // }, []);
 
   useEffect(() => {
     const songRef = ref(dbFirebase, "songs");
