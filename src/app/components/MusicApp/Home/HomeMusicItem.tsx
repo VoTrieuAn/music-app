@@ -33,6 +33,7 @@ export const HomeMusicItem = () => {
                 singer: dataSinger?.title || "Unknown",
                 listen: data.listen,
                 link: `/songs/${key}`,
+                audio: data.audio,
               });
 
               // Hủy listener để tránh gọi lại nhiều lần
