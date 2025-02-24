@@ -36,7 +36,7 @@ export const SongItem = (props: any) => {
         </div>
       </div>
       <div className="flex gap-x-[10px]">
-        <ButtonPlay item={item} />
+        <ButtonPlay item={item} className="p-[8px] bg-primary rounded-full" />
         <button className="p-[8px] bg-primary rounded-full">
           <FaRegHeart className="text-[18px] text-white" />
         </button>

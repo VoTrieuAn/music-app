@@ -3,7 +3,7 @@
 import { FaPlay } from "react-icons/fa";
 
 export const ButtonPlay = (props: any) => {
-  const { item } = props;
+  const { item, className } = props;
   const handlePlay = () => {
     const playAudio = document.querySelector(".play-audio");
     if (playAudio) {
@@ -63,7 +63,7 @@ export const ButtonPlay = (props: any) => {
   };
 
   return (
-    <button className="p-[8px] bg-primary rounded-full" onClick={handlePlay}>
+    <button className={className} onClick={handlePlay}>
       <FaPlay className="text-[18px] text-white" />
     </button>
   );

@@ -10,8 +10,6 @@ export const CategoriesInfo = (props: { id: String }) => {
   const [info, setInfo] = useState<any>({});
   useEffect(() => {
     onValue(ref(dbFirebase, "/categories/" + id), (item) => {
-      console.log(item.val());
-
       setInfo(item.val());
     });
   }, []);

@@ -33,6 +33,7 @@ export const SearchItem = () => {
                 singer: dataSinger?.title || "Unknown",
                 link: `/songs/${key}`,
                 time: "4:32", // Thời gian này do backend trả ra
+                audio: songData.audio,
               });
 
               // Hủy listener sau khi lấy dữ liệu
