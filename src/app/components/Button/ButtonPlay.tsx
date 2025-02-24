@@ -55,8 +55,8 @@ export const ButtonPlay = (props: any) => {
         elementAudio.ontimeupdate = () => {
           const currentTime = elementAudio.currentTime;
           const percent = (currentTime * 100) / totalTime;
-          elementPlayTimeCurrent.style.width = `${percent}%`;
-          elementPlayTimeTotal.value = currentTime;
+          elementPlayTimeCurrent.style.width = `${percent.toFixed()}%`;
+          elementPlayTimeTotal.value = currentTime.toFixed();
         };
       };
     }
