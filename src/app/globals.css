@@ -42,3 +42,7 @@
 .play-audio .inner-button-play.play .inner-icon-pause {
   display: block;
 }
+
+[song-id].active .inner-button-play {
+  background-color: #00ADEF;
+}

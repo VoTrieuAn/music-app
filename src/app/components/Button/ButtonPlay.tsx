@@ -60,6 +60,17 @@ export const ButtonPlay = (props: any) => {
         };
       };
     }
+    // Xóa hết class active cho bài hát trước đó đang phát
+    const elementSongOld = document.querySelector("[song-id].active");
+
+    if (elementSongOld) {
+      elementSongOld.classList.remove("active");
+    }
+
+    // Thêm class active cho bài hát đang phát
+    const id = item.id;
+    const elementSong = document.querySelector(`[song-id="${id}"]`);
+    elementSong?.classList.add("active");
   };
 
   return (

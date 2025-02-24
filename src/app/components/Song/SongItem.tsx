@@ -6,7 +6,10 @@ export const SongItem = (props: any) => {
   const { item } = props;
 
   return (
-    <div className="flex items-center justify-between p-[10px] bg-[#212121] rounded-[15px]">
+    <div
+      className="flex items-center justify-between p-[10px] bg-[#212121] rounded-[15px]"
+      song-id={item.id}
+    >
       <div className="flex items-center gap-x-[10px]">
         <Link
           href={item.link}
@@ -36,8 +39,11 @@ export const SongItem = (props: any) => {
         </div>
       </div>
       <div className="flex gap-x-[10px]">
-        <ButtonPlay item={item} className="p-[8px] bg-primary rounded-full" />
-        <button className="p-[8px] bg-primary rounded-full">
+        <ButtonPlay
+          item={item}
+          className="p-[8px] rounded-full inner-button-play"
+        />
+        <button className="p-[8px] rounded-full">
           <FaRegHeart className="text-[18px] text-white" />
         </button>
       </div>
