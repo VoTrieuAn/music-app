@@ -1,8 +1,14 @@
-import Link from "next/link";
+"use client";
+
 import { FaHouse, FaRightFromBracket, FaUserPlus } from "react-icons/fa6";
 import { FaMusic, FaHeart, FaPodcast, FaUser } from "react-icons/fa";
-import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { authFirebase } from "@/app/firebase.config";
+import { SiderItem } from "./SiderItem";
 export const SiderMenu = () => {
+  const [isLogin, setIsLogin] = useState<boolean>();
+
   const menu = [
     {
       icon: (
@@ -39,6 +45,7 @@ export const SiderMenu = () => {
       ),
       title: "Bài hát yêu thích",
       link: "/wishlist",
+      isLogin: true,
     },
     {
       icon: (
@@ -47,7 +54,8 @@ export const SiderMenu = () => {
         </>
       ),
       title: "Đăng xuất",
-      link: "",
+      link: "/logout",
+      isLogin: true,
     },
     {
       icon: (
@@ -57,6 +65,7 @@ export const SiderMenu = () => {
       ),
       title: "Đăng nhập",
       link: "/login",
+      isLogin: false,
     },
     {
       icon: (
@@ -66,28 +75,26 @@ export const SiderMenu = () => {
       ),
       title: "Đăng ký",
       link: "/register",
+      isLogin: false,
     },
   ];
 
-  const pathname = usePathname();
+  useEffect(() => {
+    onAuthStateChanged(authFirebase, (user) => {
+      if (user) {
+        setIsLogin(true);
+      } else {
+        setIsLogin(false);
+      }
+    });
+  }, []);
 
   return (
     <>
       <nav className="py-[30px] px-[20px]">
         <ul>
           {menu.map((item: any, index: any) => (
-            <li key={index} className=" mb-[30px]">
-              <Link
-                href={item.link}
-                className={
-                  "flex gap-x-[20px] items-center hover:text-primary " +
-                  (pathname === item.link ? "text-primary" : "text-white")
-                }
-              >
-                <span className="text-[22px]">{item.icon}</span>
-                <span className="text-[16px] font-[700] ">{item.title}</span>
-              </Link>
-            </li>
+            <SiderItem item={item} isLogin={isLogin} key={index} />
           ))}
         </ul>
       </nav>
