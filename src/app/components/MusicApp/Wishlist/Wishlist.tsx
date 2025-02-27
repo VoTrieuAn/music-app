@@ -7,8 +7,22 @@ import { onAuthStateChanged } from "firebase/auth";
 import { off, onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 
+interface Song {
+  id: string;
+  image: string;
+  title: string;
+  singer: string;
+  listen: number;
+  link: string;
+  audio: string;
+  time: string;
+  wishlist: {
+    uid: boolean;
+  };
+}
+
 export const Wishlist = () => {
-  const [dataFinal, setDataFinal] = useState<any[]>([]);
+  const [dataFinal, setDataFinal] = useState<Song[]>([]);
   useEffect(() => {
     let clear = undefined;
     onAuthStateChanged(authFirebase, (user) => {
@@ -19,7 +33,7 @@ export const Wishlist = () => {
       // Lắng nghe dữ liệu từ "songs"
       const unsubscribeSongs = onValue(songRef, async (snapshot) => {
         const fetchData = async () => {
-          const songPromises: Promise<any>[] = [];
+          const songPromises: Promise<Song>[] = [];
 
           snapshot.forEach((item) => {
             const key = item.key;
@@ -29,7 +43,7 @@ export const Wishlist = () => {
             if (!wishlist || !wishlist[uid]) return;
             // Lấy dữ liệu singer
             const singerRef = ref(dbFirebase, "/singers/" + data.singerId[0]);
-            const singerPromise = new Promise((resolve) => {
+            const singerPromise: Promise<Song> = new Promise((resolve) => {
               onValue(singerRef, (singerSnapshot) => {
                 const dataSinger = singerSnapshot.val();
                 resolve({
@@ -40,6 +54,7 @@ export const Wishlist = () => {
                   listen: data.listen,
                   link: `/songs/${key}`,
                   audio: data.audio,
+                  time: "4:30",
                   wishlist: data.wishlist,
                 });
 

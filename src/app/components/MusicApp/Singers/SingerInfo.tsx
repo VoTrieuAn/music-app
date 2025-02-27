@@ -7,10 +7,32 @@ import { CardInfo } from "../../Card/CardInfo";
 import { Title } from "../../Title/Title";
 import { SongItemPlay } from "../../Song/SongItemPlay";
 
-export const SingerInfo = (props: { id: String }) => {
+interface Song {
+  id: string;
+  image: string;
+  title: string;
+  singer: string;
+  listen?: number;
+  link: string;
+  audio: string;
+  time?: string;
+  wishlist?: Record<string, boolean>;
+}
+
+interface Singer {
+  image: string;
+  title: string;
+  description: string;
+}
+
+export const SingerInfo = (props: { id: string }) => {
   const { id } = props;
-  const [info, setInfo] = useState<any>({});
-  const [data, setData] = useState<any[]>([]);
+  const [info, setInfo] = useState<Singer>({
+    image: "/",
+    title: "",
+    description: "",
+  });
+  const [data, setData] = useState<Song[]>([]);
   useEffect(() => {
     const singersRef = ref(dbFirebase, `/singers/${id}`);
     onValue(singersRef, (item) => {
@@ -27,7 +49,7 @@ export const SingerInfo = (props: { id: String }) => {
 
     const unsubscribeSongs = onValue(songRef, async (snapshot) => {
       const fetchData = async () => {
-        const songs: any[] = [];
+        const songs: Song[] = [];
 
         snapshot.forEach((item) => {
           const key = item.key;

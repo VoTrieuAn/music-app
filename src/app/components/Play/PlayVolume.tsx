@@ -3,17 +3,20 @@
 import { FaVolumeHigh } from "react-icons/fa6";
 
 export const PlayVolume = () => {
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const elementTotal = event.target;
     const value = parseFloat(elementTotal.value);
     const playAudio = document.querySelector(".play-audio");
     if (playAudio) {
-      const elementAudio: any = playAudio?.querySelector(".inner-audio");
-      const elementVolumeCurrent: any = playAudio?.querySelector(
+      const elementAudio: HTMLAudioElement | null =
+        playAudio?.querySelector(".inner-audio");
+      const elementVolumeCurrent: HTMLElement | null = playAudio?.querySelector(
         ".inner-volume .inner-current"
       );
-      elementAudio.volume = value / 100; // Vì volume quy về từ 0 đến 1
-      elementVolumeCurrent.style.width = `${value}%`;
+      if (elementAudio && elementVolumeCurrent) {
+        elementAudio.volume = value / 100; // Vì volume quy về từ 0 đến 1
+        elementVolumeCurrent.style.width = `${value}%`;
+      }
     }
   };
   return (

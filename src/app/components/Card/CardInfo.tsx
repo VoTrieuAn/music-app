@@ -1,3 +1,9 @@
+interface CardInfo {
+  image: string;
+  title: string;
+  description: string;
+}
+
 export const CardInfo = (props: any) => {
   const { image, title, description } = props;
 

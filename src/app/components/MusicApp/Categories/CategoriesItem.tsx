@@ -5,16 +5,27 @@ import { off, onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { SongItemPlay } from "../../Song/SongItemPlay";
 
-export const CategoriesItem = (props: { id: String }) => {
+interface Song {
+  id: string;
+  image: string;
+  title: string;
+  singer: string;
+  link: string;
+  time: string;
+  audio: string;
+  // wishlist: any;
+}
+
+export const CategoriesItem = (props: { id: string }) => {
   const { id } = props;
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<Song[]>([]);
 
   useEffect(() => {
     const songRef = ref(dbFirebase, "songs");
 
     const unsubscribeSongs = onValue(songRef, async (snapshot) => {
       const fetchData = async () => {
-        const songPromises: Promise<any>[] = [];
+        const songPromises: Promise<Song>[] = [];
 
         snapshot.forEach((item) => {
           const key = item.key;
@@ -23,8 +34,8 @@ export const CategoriesItem = (props: { id: String }) => {
 
           // Lấy thông tin ca sĩ
           const singerRef = ref(dbFirebase, "/singers/" + songData.singerId[0]);
-          const singerPromise = new Promise((resolve) => {
-            const unsubscribeSinger = onValue(singerRef, (singerSnapshot) => {
+          const singerPromise: Promise<Song> = new Promise((resolve) => {
+            onValue(singerRef, (singerSnapshot) => {
               const dataSinger = singerSnapshot.val();
               resolve({
                 id: key,

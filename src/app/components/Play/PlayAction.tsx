@@ -9,16 +9,24 @@ import {
 
 export const PlayAction = () => {
   const handlePlay = () => {
-    const playAudio = document.querySelector(".play-audio");
-    const elementAudio: any = playAudio?.querySelector(".inner-audio");
-    if (playAudio) {
-      const elementButtonPlay = playAudio.querySelector(".inner-button-play");
-      if (elementButtonPlay?.classList.contains("play")) {
-        elementButtonPlay?.classList.remove("play");
-        elementAudio.pause();
-      } else {
-        elementButtonPlay?.classList.add("play");
-        elementAudio.play();
+    const playAudio: HTMLElement | null = document.querySelector(".play-audio");
+    const elementAudio = playAudio?.querySelector(
+      ".inner-audio"
+    ) as HTMLAudioElement | null;
+
+    if (elementAudio && playAudio) {
+      const elementButtonPlay = playAudio.querySelector(
+        ".inner-button-play"
+      ) as HTMLElement | null;
+
+      if (elementButtonPlay) {
+        if (elementButtonPlay.classList.contains("play")) {
+          elementButtonPlay.classList.remove("play");
+          elementAudio.pause(); // Dừng phát
+        } else {
+          elementButtonPlay.classList.add("play");
+          elementAudio.play(); // Bắt đầu phát
+        }
       }
     }
   };
@@ -28,8 +36,11 @@ export const PlayAction = () => {
     if (currentSong) {
       const prevSong = currentSong.previousElementSibling;
       if (prevSong) {
-        const buttonPlay: any = prevSong.querySelector(".inner-button-play");
-        buttonPlay.click();
+        const buttonPlay: HTMLElement | null =
+          prevSong.querySelector(".inner-button-play");
+        if (buttonPlay) {
+          buttonPlay.click();
+        }
       }
     }
   };
@@ -39,8 +50,11 @@ export const PlayAction = () => {
     if (currentSong) {
       const nextSong = currentSong.nextElementSibling;
       if (nextSong) {
-        const buttonPlay: any = nextSong.querySelector(".inner-button-play");
-        buttonPlay.click();
+        const buttonPlay: HTMLElement | null =
+          nextSong.querySelector(".inner-button-play");
+        if (buttonPlay) {
+          buttonPlay.click();
+        }
       }
     }
   };

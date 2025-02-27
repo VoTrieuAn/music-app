@@ -2,7 +2,19 @@ import Link from "next/link";
 import { ButtonPlay } from "../Button/ButtonPlay";
 import { ButtonHeart } from "../Button/ButtonHeart";
 
-export const SongItemPlay = (props: any) => {
+interface Song {
+  id: string;
+  image: string;
+  title: string;
+  singer: string;
+  listen?: number;
+  link: string;
+  audio: string;
+  time?: string;
+  wishlist?: Record<string, boolean>;
+}
+
+export const SongItemPlay = (props: { item: Song }) => {
   const { item } = props;
   return (
     <div className="flex items-center justify-between py-[10px] px-[18px] rounded-[15px] bg-[#212121]">
@@ -30,9 +42,6 @@ export const SongItemPlay = (props: any) => {
       </div>
       <div className="w-[30%] flex items-center justify-end gap-x-[18px]">
         <div className="font-[400] text-[14px] text-white">{item.time}</div>
-        {/* <button className="text-[20px] text-white">
-          <FaHeart />
-        </button> */}
         <ButtonHeart item={item} />
       </div>
     </div>

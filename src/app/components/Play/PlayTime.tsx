@@ -1,13 +1,16 @@
 "use client";
 
 export const PlayTime = () => {
-  const handleChange = (event: any) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const elementTotal = event.target;
     const value = parseFloat(elementTotal.value);
     const playAudio = document.querySelector(".play-audio");
     if (playAudio) {
-      const elementAudio: any = playAudio?.querySelector(".inner-audio");
-      elementAudio.currentTime = value;
+      const elementAudio: HTMLAudioElement | null =
+        playAudio?.querySelector(".inner-audio");
+      if (elementAudio) {
+        elementAudio.currentTime = value;
+      }
     }
   };
   return (

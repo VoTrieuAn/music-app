@@ -1,4 +1,4 @@
-export const Title = (props: { text: String }) => {
+export const Title = (props: { text: string }) => {
   const { text } = props;
   return (
     <>

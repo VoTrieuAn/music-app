@@ -1,7 +1,18 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ReactElement } from "react";
 
-export const SiderItem = (props: any) => {
+interface Menu {
+  link: string;
+  icon: ReactElement;
+  title: string;
+  isLogin?: boolean;
+}
+
+export const SiderItem = (props: {
+  item: Menu;
+  isLogin: boolean | undefined;
+}) => {
   const { item, isLogin } = props;
 
   const pathname = usePathname();

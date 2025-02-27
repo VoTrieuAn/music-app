@@ -7,30 +7,33 @@ import { ref, set } from "firebase/database";
 
 export const FormRegister = () => {
   const router = useRouter();
-  const handleRegister = (event: any) => {
+  const handleRegister = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const fullName = event.target.fullName.value;
-    const email = event.target.email.value;
-    const password = event.target.password.value;
+    const form = event.currentTarget;
+    const fullName = (form.elements.namedItem("fullName") as HTMLInputElement)
+      ?.value;
+    const email = (form.elements.namedItem("email") as HTMLInputElement)?.value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement)
+      ?.value;
+
     if (fullName && email && password) {
       createUserWithEmailAndPassword(authFirebase, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
           if (user) {
-            const data = {
-              fullName: fullName,
-            };
-            const userRef = ref(dbFirebase, "users/" + user.uid);
+            const data = { fullName };
+            const userRef = ref(dbFirebase, `users/${user.uid}`);
             set(userRef, data).then(() => {
               router.push("/");
             });
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.error("Error registering user:", error);
         });
     }
   };
+
   return (
     <>
       {/* Đăng ký tài khoản */}

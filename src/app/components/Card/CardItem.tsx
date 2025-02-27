@@ -1,6 +1,14 @@
 import Link from "next/link";
 
-export const CardItem = (props: any) => {
+interface CardItem {
+  id: string;
+  image: string;
+  title: string;
+  description: string;
+  link: string;
+}
+
+export const CardItem = (props: { item: CardItem }) => {
   const { item } = props;
 
   return (

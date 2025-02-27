@@ -5,8 +5,21 @@ import { SongItem } from "../../Song/SongItem";
 import { off, onValue, ref } from "firebase/database";
 import { dbFirebase } from "@/app/firebase.config";
 
+interface Song {
+  id: string;
+  image: string;
+  title: string;
+  singer: string;
+  listen: number;
+  link: string;
+  audio: string;
+  wishlist: {
+    uid: boolean;
+  };
+}
+
 export const HomeMusicItem = () => {
-  const [dataSectionOne, setDataSectionOne] = useState<any[]>([]);
+  const [dataSectionOne, setDataSectionOne] = useState<Song[]>([]);
 
   useEffect(() => {
     const songRef = ref(dbFirebase, "songs");
@@ -14,7 +27,7 @@ export const HomeMusicItem = () => {
     // Lắng nghe dữ liệu từ "songs"
     const unsubscribeSongs = onValue(songRef, async (snapshot) => {
       const fetchData = async () => {
-        const songPromises: Promise<any>[] = [];
+        const songPromises: Promise<Song>[] = [];
 
         snapshot.forEach((item) => {
           const key = item.key;
@@ -23,7 +36,7 @@ export const HomeMusicItem = () => {
 
           // Lấy dữ liệu singer
           const singerRef = ref(dbFirebase, "/singers/" + data.singerId[0]);
-          const singerPromise = new Promise((resolve) => {
+          const singerPromise: Promise<Song> = new Promise((resolve) => {
             onValue(singerRef, (singerSnapshot) => {
               const dataSinger = singerSnapshot.val();
               resolve({
@@ -63,7 +76,7 @@ export const HomeMusicItem = () => {
   return (
     <>
       {dataSectionOne.length > 0 &&
-        dataSectionOne.map((item: any, index: Number) => (
+        dataSectionOne.map((item: Song, index: number) => (
           <SongItem key={index} item={item} />
         ))}
     </>

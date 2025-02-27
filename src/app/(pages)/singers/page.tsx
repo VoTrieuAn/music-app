@@ -1,4 +1,3 @@
-import { CardItem } from "@/app/components/Card/CardItem";
 import { SingerItem } from "@/app/components/MusicApp/Singers/SingerItem";
 import { Title } from "@/app/components/Title/Title";
 import { Metadata } from "next";

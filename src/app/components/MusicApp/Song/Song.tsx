@@ -7,16 +7,49 @@ import { Title } from "../../Title/Title";
 import { off, onValue, ref } from "firebase/database";
 import { dbFirebase } from "@/app/firebase.config";
 
-export const Song = (props: { id: String }) => {
+interface SongInfo {
+  audio: string;
+  categoryId: string;
+  image: string;
+  listen: number;
+  lyric: string;
+  singer: string;
+  singerId: [];
+  title: string;
+}
+
+interface Song {
+  id: string;
+  image: string;
+  title: string;
+  singer: string;
+  link: string;
+  time: string; // Thời gian này do backend trả ra
+  audio: string;
+}
+
+export const Song = (props: { id: string }) => {
   const { id } = props;
-  const [info, setInfo] = useState<any>({});
-  const [data, setData] = useState<any[]>([]);
+  const [info, setInfo] = useState<SongInfo>({
+    audio: "/",
+    categoryId: "",
+    image: "/",
+    listen: 0,
+    lyric: "",
+    singer: "",
+    singerId: [],
+    title: "",
+  });
+  const [data, setData] = useState<Song[]>([]);
   useEffect(() => {
     const songsRef = ref(dbFirebase, `/songs/${id}`);
     onValue(songsRef, (item) => {
       const data = item.val();
+
       onValue(ref(dbFirebase, `/singers/${data.singerId[0]}`), (item) => {
         data.singer = item.val().title;
+        console.log(data);
+
         setInfo(data);
       });
     });
@@ -31,8 +64,8 @@ export const Song = (props: { id: String }) => {
     if (!info || !info.categoryId) return; // Chỉ chạy khi có dữ liệu
 
     const songRef = ref(dbFirebase, "songs");
-    const unsubscribeSongs = onValue(songRef, async (snapshot) => {
-      const songPromises: Promise<any>[] = [];
+    onValue(songRef, async (snapshot) => {
+      const songPromises: Promise<Song>[] = [];
 
       snapshot.forEach((item) => {
         const key = item.key;
@@ -44,8 +77,8 @@ export const Song = (props: { id: String }) => {
 
         // Lấy thông tin ca sĩ
         const singerRef = ref(dbFirebase, "/singers/" + songData.singerId[0]);
-        const singerPromise = new Promise((resolve) => {
-          const unsubscribeSinger = onValue(singerRef, (singerSnapshot) => {
+        const singerPromise: Promise<Song> = new Promise((resolve) => {
+          onValue(singerRef, (singerSnapshot) => {
             const dataSinger = singerSnapshot.val();
             resolve({
               id: key,

@@ -6,7 +6,18 @@ import { ref, runTransaction } from "firebase/database";
 import { useEffect, useState } from "react";
 import { FaHeart } from "react-icons/fa6";
 
-export const ButtonHeart = (props: any) => {
+interface Song {
+  id: string;
+  image: string;
+  title: string;
+  singer: string;
+  listen?: number;
+  link: string;
+  audio: string;
+  wishlist?: Record<string, boolean>;
+}
+
+export const ButtonHeart = (props: { item: Song }) => {
   const { item } = props;
   const [isActive, setIsActive] = useState(false);
   useEffect(() => {

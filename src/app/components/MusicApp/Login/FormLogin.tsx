@@ -6,10 +6,13 @@ import { useRouter } from "next/navigation";
 
 export const FormLogin = () => {
   const router = useRouter();
-  const handleLogin = (event: any) => {
+  const handleLogin = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const email = event.target.email.value;
-    const password = event.target.password.value;
+    const form = event.currentTarget; // Lấy form hiện tại
+    const email = (form.elements.namedItem("email") as HTMLInputElement)?.value;
+    const password = (form.elements.namedItem("password") as HTMLInputElement)
+      ?.value;
+
     if (email && password) {
       signInWithEmailAndPassword(authFirebase, email, password)
         .then((userCredential) => {
@@ -23,6 +26,7 @@ export const FormLogin = () => {
         });
     }
   };
+
   return (
     <>
       <form action="" className="w-[500px]" onSubmit={handleLogin}>

@@ -6,8 +6,18 @@ import { useEffect, useState } from "react";
 import { SongItemPlay } from "../../Song/SongItemPlay";
 import { useSearchParams } from "next/navigation";
 
+interface Song {
+  id: string;
+  image: string;
+  title: string;
+  singer: string;
+  link: string;
+  time: string;
+  audio: string;
+}
+
 export const SearchItem = () => {
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<Song[]>([]);
   const searchParams = useSearchParams();
   const defaultParam = searchParams.get("keyword") || "";
   useEffect(() => {
@@ -15,7 +25,7 @@ export const SearchItem = () => {
 
     const unsubscribeSongs = onValue(songRef, async (snapshot) => {
       const fetchData = async () => {
-        const songPromises: Promise<any>[] = [];
+        const songPromises: Promise<Song>[] = [];
 
         snapshot.forEach((item) => {
           const key = item.key;
@@ -23,7 +33,7 @@ export const SearchItem = () => {
 
           // Lấy thông tin ca sĩ
           const singerRef = ref(dbFirebase, "/singers/" + songData.singerId[0]);
-          const singerPromise = new Promise((resolve) => {
+          const singerPromise: Promise<Song> = new Promise((resolve) => {
             onValue(singerRef, (singerSnapshot) => {
               const dataSinger = singerSnapshot.val();
               resolve({

@@ -7,9 +7,12 @@ export const Search = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const handleSearch = (event: any) => {
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const keyword = event.target.keyword.value;
+    // const keyword = event.target.keyword.value;
+    const form = event.currentTarget;
+    const keyword = (form.elements.namedItem("keyword") as HTMLInputElement)
+      .value;
     router.push(`/search?keyword=${keyword}`); // Chuyển sang trong và cập nhật lại trên url
   };
 

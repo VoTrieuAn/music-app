@@ -2,10 +2,17 @@
 
 import { FaHouse, FaRightFromBracket, FaUserPlus } from "react-icons/fa6";
 import { FaMusic, FaHeart, FaPodcast, FaUser } from "react-icons/fa";
-import { useEffect, useState } from "react";
+import { ReactElement, useEffect, useState } from "react";
 import { onAuthStateChanged } from "firebase/auth";
 import { authFirebase } from "@/app/firebase.config";
 import { SiderItem } from "./SiderItem";
+interface Menu {
+  link: string;
+  icon: ReactElement;
+  title: string;
+  isLogin?: boolean;
+}
+
 export const SiderMenu = () => {
   const [isLogin, setIsLogin] = useState<boolean>();
 
@@ -93,7 +100,7 @@ export const SiderMenu = () => {
     <>
       <nav className="py-[30px] px-[20px]">
         <ul>
-          {menu.map((item: any, index: any) => (
+          {menu.map((item: Menu, index: number) => (
             <SiderItem item={item} isLogin={isLogin} key={index} />
           ))}
         </ul>

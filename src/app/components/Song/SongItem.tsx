@@ -2,7 +2,19 @@ import Link from "next/link";
 import { ButtonPlay } from "../Button/ButtonPlay";
 import { ButtonHeart } from "../Button/ButtonHeart";
 
-export const SongItem = (props: any) => {
+interface Song {
+  id: string;
+  image: string;
+  title: string;
+  singer: string;
+  listen: number;
+  link: string;
+  audio: string;
+  time?: string;
+  wishlist?: Record<string, boolean>;
+}
+
+export const SongItem = (props: { item: Song }) => {
   const { item } = props;
 
   return (

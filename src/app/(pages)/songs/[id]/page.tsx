@@ -6,8 +6,12 @@ export const metadata: Metadata = {
   description: "Trang phát nhạc trực tuyến hàng triệu người Việt Nam tin dùng",
 };
 
-export default async function SongDetailPage(props: any) {
-  const { id } = await props.params;
+interface SongDetailPageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function SongDetailPage({ params }: SongDetailPageProps) {
+  const { id } = await params;
 
   return (
     <>

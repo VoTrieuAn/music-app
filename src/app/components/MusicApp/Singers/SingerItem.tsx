@@ -5,11 +5,19 @@ import { off, onValue, ref } from "firebase/database";
 import { useEffect, useState } from "react";
 import { CardItem } from "../../Card/CardItem";
 
+interface SingerInfo {
+  id: string;
+  image: string;
+  title: string;
+  description: string;
+  link: string;
+}
+
 export const SingerItem = () => {
-  const [data, setDataSectionThree] = useState<any[]>([]);
+  const [data, setDataSectionThree] = useState<SingerInfo[]>([]);
 
   useEffect(() => {
-    const newData: any[] = [];
+    const newData: SingerInfo[] = [];
     const singersRef = ref(dbFirebase, "singers");
     onValue(singersRef, (items) => {
       items.forEach((item) => {
@@ -33,7 +41,7 @@ export const SingerItem = () => {
   return (
     <>
       {data.length > 0 &&
-        data.map((item: any, index: Number) => (
+        data.map((item: SingerInfo, index: number) => (
           <CardItem key={index} item={item} />
         ))}
     </>
