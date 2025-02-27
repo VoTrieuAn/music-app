@@ -1,3 +1,4 @@
+import { Wishlist } from "@/app/components/MusicApp/Wishlist/Wishlist";
 import { SongItemPlay } from "@/app/components/Song/SongItemPlay";
 import { Title } from "@/app/components/Title/Title";
 import { Metadata } from "next";
@@ -14,12 +15,14 @@ export default function WishlistPage() {
       title: "Cô Phòng",
       singer: "Hồ Quang Hiếu, Huỳnh Văn",
       time: "4:32",
+      link: "/",
     },
     {
       image: "/demo/singer-image-1.png",
       title: "Cô Phòng",
       singer: "Hồ Quang Hiếu, Huỳnh Văn",
       time: "4:32",
+      link: "/",
     },
     {
       image: "/demo/singer-image-1.png",
@@ -28,16 +31,5 @@ export default function WishlistPage() {
       time: "4:32",
     },
   ];
-  return (
-    <>
-      <Title text="Bài hát yêu thích" />
-      <div className="grid grid-cols-1 gap-[10px]">
-        {/* Song Item Play */}
-        {data.map((item, index) => (
-          <SongItemPlay key={index} item={item} />
-        ))}
-        {/* End Song Item Play */}
-      </div>
-    </>
-  );
+  return <Wishlist />;
 }

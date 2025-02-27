@@ -34,6 +34,7 @@ export const HomeMusicItem = () => {
                 listen: data.listen,
                 link: `/songs/${key}`,
                 audio: data.audio,
+                wishlist: data.wishlist,
               });
 
               // Hủy listener để tránh gọi lại nhiều lần
@@ -58,6 +59,7 @@ export const HomeMusicItem = () => {
       unsubscribeSongs();
     };
   }, []);
+
   return (
     <>
       {dataSectionOne.length > 0 &&

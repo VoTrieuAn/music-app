@@ -1,6 +1,6 @@
 import Link from "next/link";
-import { FaRegHeart } from "react-icons/fa";
 import { ButtonPlay } from "../Button/ButtonPlay";
+import { ButtonHeart } from "../Button/ButtonHeart";
 
 export const SongItem = (props: any) => {
   const { item } = props;
@@ -43,9 +43,7 @@ export const SongItem = (props: any) => {
           item={item}
           className="p-[8px] rounded-full inner-button-play"
         />
-        <button className="p-[8px] rounded-full">
-          <FaRegHeart className="text-[18px] text-white" />
-        </button>
+        <ButtonHeart item={item} />
       </div>
     </div>
   );
